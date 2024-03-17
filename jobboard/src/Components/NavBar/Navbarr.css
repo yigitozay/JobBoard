@@ -1,0 +1,35 @@
+.bg-custom-blue {
+    background-color: #0056b3;
+  }
+  
+  .navbar-brand-custom {
+    color: #fff !important; 
+    font-weight: bold;
+  }
+  
+  .nav-link-custom {
+    color: #fff !important; 
+    margin-right: 15px; 
+  }
+  
+  .nav-link-custom:hover {
+    color: #aad8ff !important; 
+    text-decoration: none; 
+  }
+  
+  .navbar-light .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+  .navbar-logo {
+    max-height: 80px; 
+    margin-right: 10px; 
+  }
+  
+  .navbar-brand-custom {
+    display: flex;
+    align-items: center;
+    color: #fff !important; 
+    font-weight: bold;
+    font-size: 1.5rem; 
+  }
