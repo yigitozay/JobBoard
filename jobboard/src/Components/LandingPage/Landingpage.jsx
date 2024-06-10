@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col, Button, Card, Carousel } from 'react-bootstrap';
+import { Container, Button, Card} from 'react-bootstrap';
 import backgroundImage from '../../assets/background.jpg'
 import Logo from './Logos';
 
@@ -44,9 +44,9 @@ const LandingPage = () => {
                                     variant="top" 
                                     src={person.imageSrc} 
                                     style={{
-                                        height: '200px', // Set a fixed height
-                                        width: '100%', // Set width to cover the card width
-                                        objectFit: 'cover' // Cover the area without stretching the image
+                                        height: '200px', 
+                                        width: '100%',
+                                        objectFit: 'cover' 
                                     }}
                                 />
                                 <Card.Body>
