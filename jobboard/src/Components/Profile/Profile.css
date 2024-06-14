@@ -1,0 +1,38 @@
+
+.profile-page {
+    padding: 20px;
+  }
+  
+  .profile-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-card-header {
+    background-color: #0073b1;
+    color: white;
+    border-radius: 10px 10px 0 0;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .profile-card h2 {
+    margin: 0;
+  }
+  
+  .profile-card .form-control {
+    border-radius: 5px;
+  }
+  
+  .profile-card .btn-primary {
+    background-color: #0073b1;
+    border-color: #0073b1;
+    border-radius: 5px;
+    padding: 10px 20px;
+  }
+  
+  .profile-card .btn-primary:hover {
+    background-color: #005580;
+    border-color: #005580;
+  }
+  

@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Navbar, Nav, Button, Modal, Form } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import './Navbarr.css'; 
 import logo from "../../logo.png";
-import { signUpWithEmailPassword, signInWithEmailPassword, signInWithGoogle } from '../../firebase'; 
+import { signUpWithEmailPassword, signInWithEmailPassword, signInWithGoogle, logOut } from '../../firebase'; 
 import { FaGoogle } from 'react-icons/fa';
 
 const Navbarr = () => {
@@ -10,6 +12,16 @@ const Navbarr = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
 
   const resetForm = () => {
     setEmail('');
@@ -22,6 +34,7 @@ const Navbarr = () => {
       setShowSignup(false);
       resetForm();
       alert('Signup successful');
+      navigate('/main'); // Redirect to MainPage
     } catch (error) {
       console.error('Error signing up: ', error);
       alert(error.message);
@@ -34,6 +47,7 @@ const Navbarr = () => {
       setShowLogin(false);
       resetForm();
       alert('Login successful');
+      navigate('/main'); // Redirect to MainPage
     } catch (error) {
       console.error('Error logging in: ', error);
       alert(error.message);
@@ -46,8 +60,20 @@ const Navbarr = () => {
       setShowLogin(false);
       resetForm();
       alert('Google login successful');
+      navigate('/main'); 
     } catch (error) {
       console.error('Error with Google login: ', error);
+      alert(error.message);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logOut();
+      alert('Logged out successfully');
+      navigate('/'); 
+    } catch (error) {
+      console.error('Error logging out: ', error);
       alert(error.message);
     }
   };
@@ -68,8 +94,17 @@ const Navbarr = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
             <Nav>
-             <Button variant="link" className="nav-link-custom" onClick={() => { resetForm(); setShowLogin(true); }}>Login</Button>
-              <Button variant="link" className="nav-link-custom" onClick={() => { resetForm(); setShowSignup(true); }}>Signup</Button>
+              {user ? (
+                <>
+                  <Button variant="link" className="nav-link-custom" onClick={handleLogout}>Sign Out</Button>
+                  <Button variant="link" className="nav-link-custom" onClick={() => navigate('/profile')}>Profile</Button>
+                </>
+              ) : (
+                <>
+                  <Button variant="link" className="nav-link-custom" onClick={() => { resetForm(); setShowLogin(true); }}>Login</Button>
+                  <Button variant="link" className="nav-link-custom" onClick={() => { resetForm(); setShowSignup(true); }}>Signup</Button>
+                </>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
