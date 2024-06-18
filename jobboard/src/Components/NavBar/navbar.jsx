@@ -31,10 +31,9 @@ const Navbarr = () => {
   const handleSignup = async () => {
     try {
       await signUpWithEmailPassword(email, password);
-      setShowSignup(false);
-      resetForm();
+      closeModal('signup');
       alert('Signup successful');
-      navigate('/main'); // Redirect to MainPage
+      navigate('/main');
     } catch (error) {
       console.error('Error signing up: ', error);
       alert(error.message);
@@ -44,10 +43,9 @@ const Navbarr = () => {
   const handleLogin = async () => {
     try {
       await signInWithEmailPassword(email, password);
-      setShowLogin(false);
-      resetForm();
+      closeModal('login');
       alert('Login successful');
-      navigate('/main'); // Redirect to MainPage
+      navigate('/main');
     } catch (error) {
       console.error('Error logging in: ', error);
       alert(error.message);
@@ -57,8 +55,7 @@ const Navbarr = () => {
   const handleGoogleLogin = async () => {
     try {
       await signInWithGoogle();
-      setShowLogin(false);
-      resetForm();
+      closeModal('login');
       alert('Google login successful');
       navigate('/main'); 
     } catch (error) {
@@ -75,6 +72,23 @@ const Navbarr = () => {
     } catch (error) {
       console.error('Error logging out: ', error);
       alert(error.message);
+    }
+  };
+
+  const openModal = (type) => {
+    resetForm();
+    if (type === 'signup') {
+      setShowSignup(true);
+    } else if (type === 'login') {
+      setShowLogin(true);
+    }
+  };
+
+  const closeModal = (type) => {
+    if (type === 'signup') {
+      setShowSignup(false);
+    } else if (type === 'login') {
+      setShowLogin(false);
     }
   };
 
@@ -96,13 +110,14 @@ const Navbarr = () => {
             <Nav>
               {user ? (
                 <>
+                  <Button variant="link" className="nav-link-custom" onClick={() => navigate('/tracked-jobs')}>Tracked Jobs</Button>
                   <Button variant="link" className="nav-link-custom" onClick={handleLogout}>Sign Out</Button>
                   <Button variant="link" className="nav-link-custom" onClick={() => navigate('/profile')}>Profile</Button>
                 </>
               ) : (
                 <>
-                  <Button variant="link" className="nav-link-custom" onClick={() => { resetForm(); setShowLogin(true); }}>Login</Button>
-                  <Button variant="link" className="nav-link-custom" onClick={() => { resetForm(); setShowSignup(true); }}>Signup</Button>
+                  <Button variant="link" className="nav-link-custom" onClick={() => openModal('login')}>Login</Button>
+                  <Button variant="link" className="nav-link-custom" onClick={() => openModal('signup')}>Signup</Button>
                 </>
               )}
             </Nav>
@@ -111,7 +126,7 @@ const Navbarr = () => {
       </Navbar>
 
       {/* Signup Modal */}
-      <Modal show={showSignup} onHide={() => { setShowSignup(false); resetForm(); }} centered>
+      <Modal show={showSignup} onHide={() => closeModal('signup')} centered>
         <Modal.Header closeButton className="border-0">
           <Modal.Title className="w-100 text-center">Signup</Modal.Title>
         </Modal.Header>
@@ -141,7 +156,7 @@ const Navbarr = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer className="border-0 justify-content-center">
-          <Button variant="secondary" onClick={() => { setShowSignup(false); resetForm(); }} className="rounded-pill px-4">
+          <Button variant="secondary" onClick={() => closeModal('signup')} className="rounded-pill px-4">
             Close
           </Button>
           <Button variant="primary" onClick={handleSignup} className="rounded-pill px-4">
@@ -151,7 +166,7 @@ const Navbarr = () => {
       </Modal>
 
       {/* Login Modal */}
-      <Modal show={showLogin} onHide={() => { setShowLogin(false); resetForm(); }} centered>
+      <Modal show={showLogin} onHide={() => closeModal('login')} centered>
         <Modal.Header closeButton className="border-0">
           <Modal.Title className="w-100 text-center">Login</Modal.Title>
         </Modal.Header>
@@ -181,7 +196,7 @@ const Navbarr = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer className="border-0 justify-content-center">
-          <Button variant="secondary" onClick={() => { setShowLogin(false); resetForm(); }} className="rounded-pill px-4">
+          <Button variant="secondary" onClick={() => closeModal('login')} className="rounded-pill px-4">
             Close
           </Button>
           <Button variant="primary" onClick={handleLogin} className="rounded-pill px-4">
